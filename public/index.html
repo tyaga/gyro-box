@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Control</title>
+
+    <script src="/scripts/tools.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.js"></script>
+    
+    <script src="/scripts/gyro.js"></script>
+    
+    <script>
+        $(function () {
+            var ws = new Server({ url: "ws://127.0.0.1:8080/echo" });
+            var control = new Control({ ontick: function(coords) {
+                
+                
+                ws.push({
+                    timestamp: Math.floor(Date.now() / 1000),
+                    data: JSON.stringify(gyro.eulerToQuaternion(coords))
+                })
+            }});
+            control.run();
+        });
+    </script>
+</head>
+<body></body>
+</html>
